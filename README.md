@@ -1,2 +1,2 @@
 ccminus
-this is a ccm test demo on ccl book
+this is a ccm test demo on ccl booddk
