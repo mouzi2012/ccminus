@@ -1,11 +1,12 @@
 #ifndef MIN_SYNTAX_H
 #define MIN_SYNTAX_H
 
-enum ETokenKind{ENum,EName};
-struct MinToken
+enum EMinTokenType{ENum,EID};
+struct MinTokenRecord
 {
-	ETokenKind k;
+	EMinTokenType k;
 	char* name;
+	char* vale;
 };
-
+EMinTokenType getToken();
 #endif

@@ -1,5 +1,5 @@
-#ifndef MINSOURCE_H
-#define MINSOURCE_H
+#ifndef MIN_SOURCE_H
+#define MIN_SOURCE_H
 class MinSource
 {
 public:
@@ -12,9 +12,9 @@ public:
 	void ResetP();
 private:
 	char m_name[256];
-	int m_p;		//指针位置
-	int m_n;		//文件大小
-	char* m_i;		//字符文件内容
+	int m_p;		//鎸囬拡浣嶇疆
+	int m_n;		//鏂囦欢澶у皬
+	char* m_i;		//瀛楃鏂囦欢鍐呭
 	bool m_isLoad;
 };
 #endif

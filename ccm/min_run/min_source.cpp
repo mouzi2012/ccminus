@@ -1,5 +1,8 @@
 #include "min_source.h"
 #include <memory.h>
+#include <stdio.h>
+#include <assert.h>
+#include <new>
 MinSource::MinSource()
 {
 	memset(m_name, 0, sizeof(m_name));
@@ -11,15 +14,24 @@ MinSource::MinSource()
 
 MinSource& MinSource::operator=(MinSource& s)
 {
+	if (this == &s)
+	{
+		return *this;
+	}
 	memcpy(m_name, s.m_name, sizeof(m_name));
 	m_p = 0;
 	m_n = s.m_n;
 	if (m_n > 0)
 	{
-		m_i = new char(m_n);
-		memcpy(m_i, s.m_i, m_n);
+		m_i = new(std::nothrow) char(m_n);
+		if (m_i)
+		{
+			memcpy(m_i, s.m_i, m_n);
+		}
+		
 	}
 	m_isLoad = s.m_isLoad;
+	return *this;
 }
 MinSource::~MinSource()
 {
@@ -51,5 +63,27 @@ bool MinSource::ReadC(char& c)
 }
 void MinSource::Init(char* f)
 {
+	if (m_isLoad)
+	{
+		return;
+	}
 
+	FILE *pFile = fopen(f, "r");
+	if (!pFile)
+	{
+		return;
+	}
+	fseek(pFile, 0L, SEEK_END);
+	int size = ftell(pFile);
+	fseek(pFile, 0L, SEEK_END);
+	m_i = new(std::nothrow) char[size];
+	if (m_i)
+	{
+		int rs=fread(m_i,size,1,pFile);
+		assert(rs == size);
+		m_n = size;
+		m_isLoad = true;
+		memcpy(m_name, f, sizeof(m_name));
+	}
+	fclose(pFile);
 }
