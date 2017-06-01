@@ -8,8 +8,10 @@ struct StrNode
 	{
 		next = nullptr;
 		len = 0;
+		h = 0;
 	}
 	StrNode* next;
+	unsigned int h;
 	int len;
 };
 
@@ -34,5 +36,6 @@ struct StrHashTable
 	StrNode* FindStr(const char *str);
 	void	RemoveStr(const char *str);
 	void	Resize(int l);
+	void	Clean();
 };
 #endif

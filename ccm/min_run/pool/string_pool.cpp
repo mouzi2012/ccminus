@@ -1,5 +1,6 @@
 #include "string_pool.h"
 #include <string.h>
+#include <malloc.h>
 
 unsigned int StrHashTable::Hash(const char *str)
 {
@@ -14,7 +15,7 @@ unsigned int StrHashTable::Hash(const char *str)
 StrNode* StrHashTable::CreateStrNode(int l)
 {
 	size_t tl = l + 1 + sizeof(StrNode);
-	void* pD = new char[tl];
+	void* pD = malloc(tl);
 	memset(pD,0,tl);
 
 	StrNode* pN = (StrNode*)pD;
@@ -45,7 +46,58 @@ StrNode* StrHashTable::FindStr(const char *str)
 	StrNode* pN = CreateStrNode(strlen(str));
 	strcpy(GetStr(pN), str);
 	pN->next = *list;
+	pN->h = h;
 	*list = pN;
 	use++;
 	return pN;
+}
+
+void StrHashTable::Resize(int l)
+{
+	if (l > len)
+	{
+		//StrNode** list = malloc(sizeof(StrNode*)*l);
+		void* pD = malloc(sizeof(StrNode*)*l);
+		memset(pD, 0, sizeof(StrNode*)*l);
+		StrNode** list = (StrNode** )pD;
+		for (int i = 0; i < len; ++ i)
+		{
+			StrNode* p = hash[i];
+			hash[i] = nullptr;
+			while (p)
+			{
+				StrNode* next = p->next;
+				unsigned int h = p->h % l;
+				p->next = list[h];
+				list[h] = p;
+				p = next;
+			}
+		}
+		free(hash);
+		hash = list;
+		len = l;
+	}
+	//not handle memory reduce !!!
+}
+
+void	StrHashTable::Clean()
+{
+	for (int i = 0; i < len; ++i)
+	{
+		StrNode* p = hash[i];
+		hash[i] = nullptr;
+		while (p)
+		{
+			StrNode* next = p->next;
+			free(p);
+			p = next;
+		}
+	}
+	free(hash);
+
+}
+
+void StrHashTable::RemoveStr(const char *str)
+{
+	//not need yet
 }
