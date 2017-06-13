@@ -12,6 +12,7 @@ MinSource::MinSource()
 	m_isLoad = false;
 }
 
+
 MinSource& MinSource::operator=(MinSource& s)
 {
 	if (this == &s)

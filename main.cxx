@@ -4,8 +4,6 @@ using namespace std;
 int main()
 {
 	MinSource source;
-	source.Init("haha");
-	std::cout<<"test"<<std::endl;
-	std::cout<<"hehe"<<std::endl;
+	source.Init("basic.cns");
 	return 0
 }
