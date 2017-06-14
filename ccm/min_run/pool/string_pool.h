@@ -20,7 +20,7 @@ public:
 	static StrNode* CreateStrNode(int l);
 	static unsigned int Hash(const char *str);
 
-	StrNode* FindStr(const char *str);
+	virtual StrNode* FindStr(const char *str);
 	void	RemoveStr(const char *str);
 	void	Resize(int l);
 	void	Clean();
