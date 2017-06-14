@@ -1,23 +1,10 @@
 #ifndef STRING_POOL_H
 #define STRING_POOL_H
 // this is a hash string pool for the parse to find the dict table word
-
-struct StrNode
+#include "hash_table.h"
+class StrHashTable:public HashTable
 {
-	StrNode()
-	{
-		next = nullptr;
-		len = 0;
-		h = 0;
-	}
-	StrNode* next;
-	unsigned int h;
-	int len;
-};
-
-
-struct StrHashTable
-{
+public:
 	StrHashTable()
 	{
 		hash = nullptr;
