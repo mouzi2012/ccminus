@@ -1,5 +1,6 @@
 #include "syntax.h"
 #include<iostream>
+#include "../../pool/hash_pool_manager.h"
 using namespace std;
 
 
@@ -39,8 +40,7 @@ MinTokenRecord MinToken::getToken()
 				else
 				{
 					cout << "handle letter error not need letter now" << endl;
-					MinTokenRecord r{ EErrorTrace, nullptr, 0 };
-					return r;
+					return MinTokenRecord{ EErrorTrace, nullptr, 0 };
 				}
 			}
 			else if (IsDigit(c))
@@ -53,22 +53,51 @@ MinTokenRecord MinToken::getToken()
 				else
 				{
 					cout << "handle EDigit error not need EDigit now" << endl;
-					MinTokenRecord r{ EErrorTrace, nullptr, 0 };
-					return r;
+					return MinTokenRecord{ EErrorTrace, nullptr, 0 };
 				}
 			}
 			else if (IsWhiteSpace(c))
 			{
+				MinTokenRecord r;
+				if (last_acc == EDigit)
+				{
+					r.k = ENum;
+					r.i = atoi(buff);
+				}
+				else if (last_acc == ELetter)
+				{
+					r.k = EID;
+				}
+				r.pn = HashPoolManager::GetInstance()->GetTable("StrHashTable")->FindStr(buff);
 
+				return r;
 			}
 
 		}
 		else
 		{
-
+			if (pos > 0)
+			{
+				MinTokenRecord r;
+				if (last_acc == EDigit)
+				{
+					r.k = ENum;
+					r.i = atoi(buff);
+				}
+				else if (last_acc == ELetter)
+				{
+					r.k = EID;
+				}
+				r.pn = HashPoolManager::GetInstance()->GetTable("StrHashTable")->FindStr(buff);
+			}
+			else
+			{
+				return MinTokenRecord{ EErrorTrace, nullptr, 0 };
+			}
 		}
 		
 	}
+	return MinTokenRecord{ EErrorTrace, nullptr, 0 };
 
 }
 bool MinToken::IsLetter(char c)
