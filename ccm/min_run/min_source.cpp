@@ -76,7 +76,7 @@ void MinSource::Init(char* f)
 	}
 	fseek(pFile, 0L, SEEK_END);
 	int size = ftell(pFile);
-	fseek(pFile, 0L, SEEK_END);
+	fseek(pFile, 0L, SEEK_SET);
 	m_i = new(std::nothrow) char[size];
 	if (m_i)
 	{
