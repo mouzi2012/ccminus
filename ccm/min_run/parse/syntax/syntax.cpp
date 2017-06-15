@@ -12,29 +12,50 @@ MinToken::MinToken(MinSource* rhs) :pS(rhs)
 }
 MinTokenRecord MinToken::getToken()
 {
-	char buff[256] = { 0 };
+	if (!pS)
+	{
+		cout << "null ps" << endl;
+		return MinTokenRecord{ EErrorTrace, nullptr, 0 };
+	}
+
+	char buf[256] = { 0 };
 	int pos = 0;
+
 	ECharType last_acc = ECharTypeEnd;
+	char c = 0;
+	char o = 0;
 	for (;;)
 	{
-		char c=0;
-		if (!pS)
-		{
-			cout << "null ps" << endl;
-			return MinTokenRecord { EErrorTrace, nullptr, 0 };
-		}
+		o = c;
 		if (pS->ReadC(c))
 		{
-			
 			if (c=='\r')
 			{
 				continue;
+			}
+			else if (c=='/')
+			{
+				if (o == '/')
+				{
+					char tmp = 0;
+					while (pS->ReadC(tmp))
+					{
+						if (tmp == '\n')
+						{
+							return MinTokenRecord{ ECOMMIT, nullptr, 0 };
+						}
+					}
+				}
+				else
+				{
+
+				}
 			}
 			else if (IsLetter(c))
 			{
 				if (HandleStateChange(last_acc, ELetter))
 				{
-					buff[pos++] = c;
+					buf[pos++] = c;
 					last_acc = ELetter;
 				}
 				else
@@ -47,7 +68,7 @@ MinTokenRecord MinToken::getToken()
 			{
 				if (HandleStateChange(last_acc, EDigit))
 				{
-					buff[pos++] = c;
+					buf[pos++] = c;
 					last_acc = EDigit;
 				}
 				else
@@ -62,13 +83,13 @@ MinTokenRecord MinToken::getToken()
 				if (last_acc == EDigit)
 				{
 					r.k = ENum;
-					r.i = atoi(buff);
+					r.i = atoi(buf);
 				}
 				else if (last_acc == ELetter)
 				{
 					r.k = EID;
 				}
-				r.pn = HashPoolManager::GetInstance()->GetTable("StrHashTable")->FindStr(buff);
+				r.pn = HashPoolManager::GetInstance()->GetTable("StrHashTable")->FindStr(buf);
 
 				return r;
 			}
@@ -82,13 +103,13 @@ MinTokenRecord MinToken::getToken()
 				if (last_acc == EDigit)
 				{
 					r.k = ENum;
-					r.i = atoi(buff);
+					r.i = atoi(buf);
 				}
 				else if (last_acc == ELetter)
 				{
 					r.k = EID;
 				}
-				r.pn = HashPoolManager::GetInstance()->GetTable("StrHashTable")->FindStr(buff);
+				r.pn = HashPoolManager::GetInstance()->GetTable("StrHashTable")->FindStr(buf);
 			}
 			else
 			{
