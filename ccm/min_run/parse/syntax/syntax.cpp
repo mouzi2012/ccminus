@@ -20,7 +20,7 @@ MinTokenRecord MinToken::getToken()
 		if (!pS)
 		{
 			cout << "null ps" << endl;
-			return;
+			return MinTokenRecord { EErrorTrace, nullptr, 0 };
 		}
 		if (pS->ReadC(c))
 		{
@@ -122,4 +122,5 @@ bool MinToken::HandleStateChange(ECharType o, ECharType n)
 	default:
 		break;
 	}
+	return false;
 }

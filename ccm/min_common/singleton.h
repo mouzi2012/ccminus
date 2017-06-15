@@ -35,7 +35,7 @@ T* Singleton<T>::GetInstance()
 }
 
 template<typename T>
-void Singleton<T>::destroy()
+void Singleton<T>::Destroy()
 {
 	if(Singleton<T>::m_instance)
 	{
