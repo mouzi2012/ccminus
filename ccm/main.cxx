@@ -5,5 +5,6 @@ int main()
 {
 	MinSource source;
 	source.Init("basic.cns");
+	
 	return 0
 }
