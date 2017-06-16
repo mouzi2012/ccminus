@@ -1,5 +1,6 @@
 #include "syntax.h"
 #include<iostream>
+#include "../../pool/hash_pool_manager.h"
 using namespace std;
 
 
@@ -11,64 +12,113 @@ MinToken::MinToken(MinSource* rhs) :pS(rhs)
 }
 MinTokenRecord MinToken::getToken()
 {
-	char buff[256] = { 0 };
+	if (!pS)
+	{
+		cout << "null ps" << endl;
+		return MinTokenRecord{ EErrorTrace, nullptr, 0 };
+	}
+
+	char buf[256] = { 0 };
 	int pos = 0;
+
 	ECharType last_acc = ECharTypeEnd;
+	char c = 0;
+	char o = 0;
 	for (;;)
 	{
-		char c=0;
-		if (!pS)
-		{
-			cout << "null ps" << endl;
-			return;
-		}
+		o = c;
 		if (pS->ReadC(c))
 		{
-			
 			if (c=='\r')
 			{
 				continue;
+			}
+			else if (c=='/')
+			{
+				if (o == '/')
+				{
+					char tmp = 0;
+					while (pS->ReadC(tmp))
+					{
+						if (tmp == '\n')
+						{
+							return MinTokenRecord{ ECOMMIT, nullptr, 0 };
+						}
+					}
+				}
+				else
+				{
+
+				}
 			}
 			else if (IsLetter(c))
 			{
 				if (HandleStateChange(last_acc, ELetter))
 				{
-					buff[pos++] = c;
+					buf[pos++] = c;
 					last_acc = ELetter;
 				}
 				else
 				{
 					cout << "handle letter error not need letter now" << endl;
-					MinTokenRecord r{ EErrorTrace, nullptr, 0 };
-					return r;
+					return MinTokenRecord{ EErrorTrace, nullptr, 0 };
 				}
 			}
 			else if (IsDigit(c))
 			{
 				if (HandleStateChange(last_acc, EDigit))
 				{
-					buff[pos++] = c;
+					buf[pos++] = c;
 					last_acc = EDigit;
 				}
 				else
 				{
 					cout << "handle EDigit error not need EDigit now" << endl;
-					MinTokenRecord r{ EErrorTrace, nullptr, 0 };
-					return r;
+					return MinTokenRecord{ EErrorTrace, nullptr, 0 };
 				}
 			}
 			else if (IsWhiteSpace(c))
 			{
+				MinTokenRecord r;
+				if (last_acc == EDigit)
+				{
+					r.k = ENum;
+					r.i = atoi(buf);
+				}
+				else if (last_acc == ELetter)
+				{
+					r.k = EID;
+				}
+				r.pn = HashPoolManager::GetInstance()->GetTable("StrHashTable")->FindStr(buf);
 
+				return r;
 			}
 
 		}
 		else
 		{
-
+			if (pos > 0)
+			{
+				MinTokenRecord r;
+				if (last_acc == EDigit)
+				{
+					r.k = ENum;
+					r.i = atoi(buf);
+				}
+				else if (last_acc == ELetter)
+				{
+					r.k = EID;
+				}
+				r.pn = HashPoolManager::GetInstance()->GetTable("StrHashTable")->FindStr(buf);
+			}
+			else
+			{
+				return MinTokenRecord{ EErrorTrace, nullptr, 0 };
+			}
 		}
 		
 	}
+	return MinTokenRecord{ EErrorTrace, nullptr, 0 };
 
 }
 bool MinToken::IsLetter(char c)
@@ -122,4 +172,5 @@ bool MinToken::HandleStateChange(ECharType o, ECharType n)
 	default:
 		break;
 	}
+	return false;
 }
