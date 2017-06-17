@@ -88,3 +88,8 @@ void MinSource::Init(char* f)
 	}
 	fclose(pFile);
 }
+void MinSource::BackP()
+{
+	assert(m_p>0);
+	m_p--;
+}

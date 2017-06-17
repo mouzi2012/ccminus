@@ -20,7 +20,8 @@ HashTable* HashPoolManager::GetTable(const string &key)
 	if(key == "StrHashTable")
 	{
 		StrHashTable* pt = new StrHashTable;
-//		pt->Resize(256);
+		pt->Resize(256);
+
 	
 		m_pool["StrHashTable"] = pt;
 	}

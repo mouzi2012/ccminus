@@ -10,6 +10,7 @@ public:
 	void Init(char* f);
 	bool ReadC(char& c);
 	void ResetP();
+	void BackP();
 private:
 	char m_name[256];
 	int m_p;		//指针位置

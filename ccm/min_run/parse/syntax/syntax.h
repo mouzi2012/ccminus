@@ -3,7 +3,7 @@
 #include "../../pool/string_pool.h"
 #include "../../min_source.h"
 
-enum EMinTokenType{ ENum, EID, ECOMMIT,EErrorTrace };
+enum EMinTokenType{ EEmpt,ENum, EID, EAnnotate,EErrorTrace };
 enum ECharType{ EDigit, ELetter,ESLASH, ECharTypeEnd };
 
 struct MinTokenRecord
@@ -19,6 +19,8 @@ public:
 	MinToken(MinSource* rhs);
 public:
 	MinTokenRecord getToken(); // need change
+	MinTokenRecord GetToken(); // need change
+
 public:
 	static bool IsLetter(char c);
 	static bool IsDigit(char c);
@@ -27,9 +29,11 @@ public:
 
 	static bool HandleChar(char o, char c);
 	// not finish yet
-	static bool HandleSlash();
-	static bool HandleLetter();
-	static bool handleDigit();
+	static bool ReadChar(char& c,char& o,char buf[256],int& pos,MinTokenRecord& record);
+	static bool GenRecord(char buf[256],int pos,MinTokenRecord& record);
+	static bool HandleSlash(char& c,char& o,char buf[256],int& pos,MinTokenRecord& record);
+	static bool HandleLetter(char& c,char& o,char buf[256],int& pos,MinTokenRecord& record);
+	static bool handleDigit(char& c,char& o,char buf[256],int& pos,MinTokenRecord& record);
 private:
 	MinToken& operator=(MinToken& rhs);
 private:
