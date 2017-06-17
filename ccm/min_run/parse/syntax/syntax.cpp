@@ -1,6 +1,7 @@
 #include "syntax.h"
 #include<iostream>
 #include "../../pool/hash_pool_manager.h"
+#include "../../min_source.h"
 using namespace std;
 
 
@@ -8,10 +9,11 @@ using namespace std;
 
 MinToken::MinToken(MinSource* rhs) :pS(rhs)
 {
-
+	
 }
 MinTokenRecord MinToken::GetToken()
 {
+
 	if (!pS)
 	{
 		cout << "null ps" << endl;
@@ -35,6 +37,7 @@ MinTokenRecord MinToken::GetToken()
 
 bool MinToken::GenRecord(char buf[256],int pos,MinTokenRecord& record)
 {
+	
 	if(pos>0)
 	{
 		if(IsLetter(buf[0]))
@@ -58,31 +61,38 @@ bool MinToken::ReadChar(char& c,char& o,char buf[256],int& pos,MinTokenRecord& r
 	o = c;
 	if(pS->ReadC(c))
 	{
-			if (c=='\r')
-			{
-				continue;
-			}
-			else if (c=='/')
-			{
-				return HandleSlash(c,o,buf,pos,record)
-			}
-			else if (IsLetter(c))
-			{
-				return HandleLetter(c,o,buf,pos,record);	
-			}
-			else if(IsDigit(c))
-			{
-				return HandleDigit(c,o,buf,pos,record);
-			}
-			else if(IsWhiteSpace(c))
+		if (c=='\r')
+		{
+			continue;
+		}
+		else if (c=='/')
+		{
+			return HandleSlash(c,o,buf,pos,record)
+		}
+		else if (IsLetter(c))
+		{
+			return HandleLetter(c,o,buf,pos,record);	
+		}
+		else if(IsDigit(c))
+		{
+			return HandleDigit(c,o,buf,pos,record);
+		}
+		else if(IsWhiteSpace(c))
+		{
+			if(pos>0)
 			{
 				return GenRecord(buf,pos,record);
 			}
 			else
 			{
-				record.k= ErrorTrace;
-				return false;
+				return true;
 			}
+		}
+		else
+		{
+			record.k= ErrorTrace;
+			return false;
+		}
 	}
 	//do not parse annotation
 	if(pos>0)
@@ -90,119 +100,17 @@ bool MinToken::ReadChar(char& c,char& o,char buf[256],int& pos,MinTokenRecord& r
 		GenRecord(buf,pos,record);
 		return true;
 	}	
-	return false;
-}
-MinTokenRecord MinToken::getToken()
-{
-	if (!pS)
+	if(o == 0)
 	{
-		cout << "null ps" << endl;
-		return MinTokenRecord{ EErrorTrace, nullptr, 0 };
+		return true;	
 	}
-
-	char buf[256] = { 0 };
-	int pos = 0;
-
-	ECharType last_acc = ECharTypeEnd;
-	char c = 0;
-	char o = 0;
-	for (;;)
+	else
 	{
-		o = c;
-		if (pS->ReadC(c))
-		{
-			if (c=='\r')
-			{
-				continue;
-			}
-			else if (c=='/')
-			{
-				if (o == '/')
-				{
-					char tmp = 0;
-					while (pS->ReadC(tmp))
-					{
-						if (tmp == '\n')
-						{
-							return MinTokenRecord{ ECOMMIT, nullptr, 0 };
-						}
-					}
-				}
-				else
-				{
-
-				}
-			}
-			else if (IsLetter(c))
-			{
-				if (HandleStateChange(last_acc, ELetter))
-				{
-					buf[pos++] = c;
-					last_acc = ELetter;
-				}
-				else
-				{
-					cout << "handle letter error not need letter now" << endl;
-					return MinTokenRecord{ EErrorTrace, nullptr, 0 };
-				}
-			}
-			else if (IsDigit(c))
-			{
-				if (HandleStateChange(last_acc, EDigit))
-				{
-					buf[pos++] = c;
-					last_acc = EDigit;
-				}
-				else
-				{
-					cout << "handle EDigit error not need EDigit now" << endl;
-					return MinTokenRecord{ EErrorTrace, nullptr, 0 };
-				}
-			}
-			else if (IsWhiteSpace(c))
-			{
-				MinTokenRecord r;
-				if (last_acc == EDigit)
-				{
-					r.k = ENum;
-					r.i = atoi(buf);
-				}
-				else if (last_acc == ELetter)
-				{
-					r.k = EID;
-				}
-				r.pn = HashPoolManager::GetInstance()->GetTable("StrHashTable")->FindStr(buf);
-
-				return r;
-			}
-
-		}
-		else
-		{
-			if (pos > 0)
-			{
-				MinTokenRecord r;
-				if (last_acc == EDigit)
-				{
-					r.k = ENum;
-					r.i = atoi(buf);
-				}
-				else if (last_acc == ELetter)
-				{
-					r.k = EID;
-				}
-				r.pn = HashPoolManager::GetInstance()->GetTable("StrHashTable")->FindStr(buf);
-			}
-			else
-			{
-				return MinTokenRecord{ EErrorTrace, nullptr, 0 };
-			}
-		}
-		
+		record.k = ErrorTrace;
+		return false;
 	}
-	return MinTokenRecord{ EErrorTrace, nullptr, 0 };
-
 }
+
 bool MinToken::IsLetter(char c)
 {
 	if (('A' <= c && c <= 'Z') || ('a' <= c && c <= 'z'))
@@ -227,35 +135,7 @@ bool MinToken::IsWhiteSpace(char c)
 	}
 	return false;
 }
-bool MinToken::HandleStateChange(ECharType o, ECharType n)
-{
-	switch (o)
-	{
-	case EDigit:
-	{
-		if (n == EDigit)
-		{
-			return true;
-		}
-		return false;
-	}
-	case ELetter:
-	{
-		if (n == ELetter)
-		{
-			return true;
-		}
-		return false;
-	}
-	case ECharTypeEnd:
-	{
-		return true;
-	}
-	default:
-		break;
-	}
-	return false;
-}
+
 bool MinToken::HandleLetter(char& c,char& o,char buf[256],int& pos,MinTokenRecord& record)
 {
 	if(IsLetter(o) || (o==0))
