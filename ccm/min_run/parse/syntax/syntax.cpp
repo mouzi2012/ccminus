@@ -13,7 +13,6 @@ MinToken::MinToken(MinSource* rhs) :pS(rhs)
 }
 MinTokenRecord MinToken::GetToken()
 {
-
 	if (!pS)
 	{
 		cout << "null ps" << endl;
@@ -144,7 +143,7 @@ bool MinToken::HandleLetter(char& c,char& o,char buf[256],int& pos,MinTokenRecor
 		return ReadChar(c,o,buf,pos,record);
 	}
 	record.k = ErrorTrace;
-	retur false;
+	return false;
 	
 }
 bool MinToken::handleDigit(char& c,char& o,char buf[256],int& pos,MinTokenRecord& record)
@@ -155,7 +154,7 @@ bool MinToken::handleDigit(char& c,char& o,char buf[256],int& pos,MinTokenRecord
 		return ReadChar(c,o,buf,pos,record);
 	}
 	record.k = ErrorTrace;
-	retur false;
+	return false;
 
 }
 bool MinToken::HandleSlash(char& c,char& o,char buf[256],int& pos,MinTokenRecord& record)
