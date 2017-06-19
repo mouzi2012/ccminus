@@ -2,7 +2,7 @@
 #define MIN_SYNTAX_H
 #include "../../pool/string_pool.h"
 
-enum EMinTokenType{ EEmpt,ENum, EID, EAnnotate,EErrorTrace };
+enum EMinTokenType{ EEmpty,ENum, EID, EAnnotate,EErrorTrace };
 enum ECharType{ EDigit, ELetter,ESLASH, ECharTypeEnd };
 
 struct MinTokenRecord
@@ -30,7 +30,7 @@ public:
 	bool GenRecord(char buf[256],int pos,MinTokenRecord& record);
 	bool HandleSlash(char& c,char& o,char buf[256],int& pos,MinTokenRecord& record);
 	bool HandleLetter(char& c,char& o,char buf[256],int& pos,MinTokenRecord& record);
-	bool handleDigit(char& c,char& o,char buf[256],int& pos,MinTokenRecord& record);
+	bool HandleDigit(char& c,char& o,char buf[256],int& pos,MinTokenRecord& record);
 private:
 	MinToken& operator=(MinToken& rhs);
 private:

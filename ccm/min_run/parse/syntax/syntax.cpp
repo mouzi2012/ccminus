@@ -60,13 +60,9 @@ bool MinToken::ReadChar(char& c,char& o,char buf[256],int& pos,MinTokenRecord& r
 	o = c;
 	if(pS->ReadC(c))
 	{
-		if (c=='\r')
+		if (c=='/')
 		{
-			continue;
-		}
-		else if (c=='/')
-		{
-			return HandleSlash(c,o,buf,pos,record)
+			return HandleSlash(c, o, buf, pos, record);
 		}
 		else if (IsLetter(c))
 		{
@@ -89,7 +85,7 @@ bool MinToken::ReadChar(char& c,char& o,char buf[256],int& pos,MinTokenRecord& r
 		}
 		else
 		{
-			record.k= ErrorTrace;
+			record.k= EErrorTrace;
 			return false;
 		}
 	}
@@ -105,7 +101,7 @@ bool MinToken::ReadChar(char& c,char& o,char buf[256],int& pos,MinTokenRecord& r
 	}
 	else
 	{
-		record.k = ErrorTrace;
+		record.k = EErrorTrace;
 		return false;
 	}
 }
@@ -128,7 +124,7 @@ bool MinToken::IsDigit(char c)
 }
 bool MinToken::IsWhiteSpace(char c)
 {
-	if ((c == ' ') || (c == '\n') || (c == '\t'))
+	if ((c == ' ') || (c == '\n') || (c == '\t') || (c == '\r'))
 	{
 		return true;
 	}
@@ -142,18 +138,18 @@ bool MinToken::HandleLetter(char& c,char& o,char buf[256],int& pos,MinTokenRecor
 		buf[pos++] = c;
 		return ReadChar(c,o,buf,pos,record);
 	}
-	record.k = ErrorTrace;
+	record.k = EErrorTrace;
 	return false;
 	
 }
-bool MinToken::handleDigit(char& c,char& o,char buf[256],int& pos,MinTokenRecord& record)
+bool MinToken::HandleDigit(char& c,char& o,char buf[256],int& pos,MinTokenRecord& record)
 {
 	if(IsDigit(o) || (o==0))
 	{
 		buf[pos++] = c;
 		return ReadChar(c,o,buf,pos,record);
 	}
-	record.k = ErrorTrace;
+	record.k = EErrorTrace;
 	return false;
 
 }
@@ -164,7 +160,7 @@ bool MinToken::HandleSlash(char& c,char& o,char buf[256],int& pos,MinTokenRecord
 		for(;;)
 		{
 			char tmp = 0;
-			if(pS->Read(tmp))
+			if(pS->ReadC(tmp))
 			{
 				if(tmp=='\n')
 				{
