@@ -2,7 +2,42 @@
 #define MIN_SYNTAX_H
 #include "../../pool/string_pool.h"
 
-enum EMinTokenType{ EEmpty,ENum, EID, EAnnotate,EErrorTrace };
+enum EMinTokenType
+{ 
+	EEmpty,
+	ENum, 
+	EID,
+	//the key word
+	EIF,
+	EELSE,
+	EINT,
+	ERETURN,
+	EVOID,
+	EWHILE,
+	//the special word
+	EPLUS,
+	EMINUS,
+	EMULTI,
+	EDIV,
+	EL,
+	ELEQ,
+	EG,
+	EGEQ,
+	EEQ,
+	ENEQ,
+	EASIGN,
+	ESEM,
+	ECOMMA,
+	ELBRAC,
+	ERBRAC,
+	ELINDEX,
+	ERINDEX,
+	ELBLOCK,
+	ERBLOCK,
+	//special word end
+   	EAnnotate,
+	EErrorTrace
+};
 enum ECharType{ EDigit, ELetter,ESLASH, ECharTypeEnd };
 
 struct MinTokenRecord
@@ -24,6 +59,8 @@ public:
 	static bool IsLetter(char c);
 	static bool IsDigit(char c);
 	static bool IsWhiteSpace(char c);
+	static bool IsSpecialRecord(const MinTokenRecord& r);
+	static bool IsKeyWordRecord(const MinTokenRecord& r);
 public:
 
 	bool ReadChar(char& c,char& o,char buf[256],int& pos,MinTokenRecord& record);

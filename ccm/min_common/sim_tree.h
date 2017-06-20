@@ -1,4 +1,3 @@
-//this is a simple tree for parse syntax
 #ifndef _TREE_NODE_H
 #define _TREE_NODE_H
 #include <algorithm>

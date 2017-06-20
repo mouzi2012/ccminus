@@ -43,13 +43,116 @@ bool MinToken::GenRecord(char buf[256],int pos,MinTokenRecord& record)
 		{
 			record.k = EID;
 			record.pn = HashPoolManager::GetInstance()->GetTable("StrHashTable")->FindStr(buf);
+			//the key word
+			if(strcmp("if",buf)==0)
+			{
+				record.k = EIF;
+			}
+			else if(strcmp("else",buf)==0)
+			{
+				record.k = EELSE;
+			}
+			else if(strcmp("int",buf)==0)
+			{
+				record.k = EINT;
+			}
+			else if(strcmp("return",buf)==0)
+			{
+				record.k = ERETURN;
+			}
+			else if(strcmp("void",buf)==0)
+			{
+				record.k = EVOID;
+			}
+			else if(strcmp("while",buf)==0)
+			{
+				record.k = EWHILE;
+			}
+			// the special word
+			else if(strcmp("+",buf)==0)
+			{
+				record.k = EPLUS;
+			}
+			else if(strcmp("-",buf)==0)
+			{
+				record.k = EMINUS;
+			}
+			else if(strcmp("*",buf)==0)
+			{
+				record.k = EMULTI;
+			}
+			else if(strcmp("/",buf)==0)
+			{
+				record.k = EDIV;
+			}
+			else if(strcmp("<",buf)==0)
+			{
+				record.k = EL;
+			}
+			else if(strcmp("<=",buf)==0)
+			{
+				record.k = ELEQ;
+			}
+			else if(strcmp(">",buf)==0)
+			{
+				record.k = EG;
+			}
+			else if(strcmp(">=",buf)==0)
+			{
+				record.k = EGEQ;
+			}
+			else if(strcmp("==",buf)==0)
+			{
+				record.k = EEQ;
+			}
+			else if(strcmp("!=",buf)==0)
+			{
+				record.k = ENEQ;
+			}
+			else if(strcmp("=",buf)==0)
+			{
+				record.k = EASIGN;
+			}
+			else if(strcmp(";",buf)==0)
+			{
+				record.k = ESEM;
+			}
+			else if(strcmp(",",buf)==0)
+			{
+				record.k = ECOMMA;
+			}
+			else if(strcmp("(",buf)==0)
+			{
+				record.k = ELBRAC;
+			}
+			else if(strcmp(")",buf)==0)
+			{
+				record.k = ERBRAC;
+			}
+			else if(strcmp("[",buf)==0)
+			{
+				record.k = ELINDEX;
+			}
+			else if(strcmp("]",buf)==0)
+			{
+				record.k = ERINDEX;
+			}
+			else if(strcmp("{",buf)==0)
+			{
+				record.k = ELBLOCK;
+			}
+			else if(strcmp("}",buf)==0)
+			{
+				record.k = ERBLOCK;
+			}
 			return true;	
 		}
-		else if(IsLetter(buf[0]))
+		else if(IsDigit(buf[0]))
 		{
 			record.k = ENum;
 			record.i = atoi(buf);
 			record.pn = HashPoolManager::GetInstance()->GetTable("StrHashTable")->FindStr(buf);
+				
 			return true;
 		}
 	}
