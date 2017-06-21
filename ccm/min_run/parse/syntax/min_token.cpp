@@ -163,34 +163,42 @@ bool MinToken::ReadChar(char& c,char& o,char buf[256],int& pos,MinTokenRecord& r
 	o = c;
 	if(pS->ReadC(c))
 	{
-		if (c=='/')
+		if(IsSpecial(c))
 		{
-			return HandleSlash(c, o, buf, pos, record);
-		}
-		else if (IsLetter(c))
-		{
-			return HandleLetter(c,o,buf,pos,record);	
-		}
-		else if(IsDigit(c))
-		{
-			return HandleDigit(c,o,buf,pos,record);
-		}
-		else if(IsWhiteSpace(c))
-		{
-			if(pos>0)
-			{
-				return GenRecord(buf,pos,record);
-			}
-			else
-			{
-				return true;
-			}
+			return HandleSpecial(c, o, buf, pos, record);
 		}
 		else
 		{
-			record.k= EErrorTrace;
-			return false;
+			if (c=='/')
+			{
+				return HandleSlash(c, o, buf, pos, record);
+			}
+			else if (IsLetter(c))
+			{
+				return HandleLetter(c,o,buf,pos,record);	
+			}
+			else if(IsDigit(c))
+			{
+				return HandleDigit(c,o,buf,pos,record);
+			}
+			else if(IsWhiteSpace(c))
+			{
+				if(pos>0)
+				{
+					return GenRecord(buf,pos,record);
+				}
+				else
+				{
+					return true;
+				}
+			}
+			else
+			{
+				record.k= EErrorTrace;
+				return false;
+			}
 		}
+
 	}
 	//do not parse annotation
 	if(pos>0)
@@ -234,6 +242,83 @@ bool MinToken::IsWhiteSpace(char c)
 	return false;
 }
 
+bool MinToken::IsSpecial(char c)
+{
+	switch(c)
+	{
+	case '+':
+	case '-':
+	case '*':
+	case '/':
+	case '<':
+	case '>':
+	case '=':
+	case '!':
+	case ';':
+	case ',':
+	case '(':
+	case ')':
+	case '[':
+	case ']':
+	case '{':
+	case '}':
+		return true;
+	default:
+		return false;
+	}
+	return false;
+}
+
+bool MinToken::HandleSpecial(char& c,char& o,char buf[256],int& pos,MinTokenRecord& record)
+{
+	if( c == '+' || 
+	c == '-'||
+	c == '*'||
+	c == '-'||
+	c == '('||
+	c == ')'||
+	c == '['||
+	c == ']'||
+	c == '{'||
+	c == '}')
+	{
+		buf[pos++] = c;
+		return GenRecord(buf,pos,record);
+	}
+	else
+	{
+		if(c == '>' || c == '<')
+		{
+			buf[pos++] = c;
+			return ReadChar(c,o,buf,pos,record);
+		}
+		else if(c == '=')
+		{
+			if(o == '>' || o == '<' || o == '=' || c == '!')
+			{
+				buf[pos++] = c;
+				return GenRecord(buf,pos,record);
+			}
+			else if(o == 0)
+			{
+				buf[pos++] = c;
+				return ReadChar(c,o,buf,pos,record);
+			}
+			else if(IsLetter(o)||IsDigit(o))
+			{
+				pS->BackP();
+				return GenRecord(buf,pos,record);
+			}
+		}
+		else if(c == '!')
+		{
+			buf[pos++] = c;
+			return ReadChar(c,o,buf,pos,record);
+		}
+	}
+	return false;
+}
+
 bool MinToken::HandleLetter(char& c,char& o,char buf[256],int& pos,MinTokenRecord& record)
 {
 	if(IsLetter(o) || (o==0))
@@ -241,16 +326,29 @@ bool MinToken::HandleLetter(char& c,char& o,char buf[256],int& pos,MinTokenRecor
 		buf[pos++] = c;
 		return ReadChar(c,o,buf,pos,record);
 	}
+	else if(IsSpecial(o))
+	{
+		pS->BackP();
+		return GenRecord(buf,pos,record);
+	}
 	record.k = EErrorTrace;
 	return false;
 	
 }
+
+
+
 bool MinToken::HandleDigit(char& c,char& o,char buf[256],int& pos,MinTokenRecord& record)
 {
 	if(IsDigit(o) || (o==0))
 	{
 		buf[pos++] = c;
 		return ReadChar(c,o,buf,pos,record);
+	}
+	else if(IsSpecial(o))
+	{
+		pS->BackP();
+		return GenRecord(buf,pos,record);
 	}
 	record.k = EErrorTrace;
 	return false;

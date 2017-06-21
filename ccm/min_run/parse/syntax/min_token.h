@@ -59,6 +59,8 @@ public:
 	static bool IsLetter(char c);
 	static bool IsDigit(char c);
 	static bool IsWhiteSpace(char c);
+	static bool IsSpecial(char& c);
+	
 	static bool IsSpecialRecord(const MinTokenRecord& r);
 	static bool IsKeyWordRecord(const MinTokenRecord& r);
 public:
@@ -68,6 +70,8 @@ public:
 	bool HandleSlash(char& c,char& o,char buf[256],int& pos,MinTokenRecord& record);
 	bool HandleLetter(char& c,char& o,char buf[256],int& pos,MinTokenRecord& record);
 	bool HandleDigit(char& c,char& o,char buf[256],int& pos,MinTokenRecord& record);
+	bool HandleSpecial(char& c,char& o,char buf[256],int& pos,MinTokenRecord& record);
+	
 private:
 	MinToken& operator=(MinToken& rhs);
 private:
