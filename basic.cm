@@ -1,0 +1,16 @@
+//this is a ccminus language text run demo
+//acde + 100
+//a + b
+//c - d
+//e * f //lala
+//g/h // haha 
+//1100 >= 10 10 <= 100 100 == 1000 13==1000 12!=10 g=100
+134*10 10<3
+a<b;
+a < b
+if(a<b)
+if(c > d)
+else
+{
+,defd;
+}

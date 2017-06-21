@@ -69,7 +69,7 @@ void MinSource::Init(char* f)
 		return;
 	}
 
-	FILE *pFile = fopen(f, "r");
+	FILE *pFile = fopen(f, "rb");
 	if (!pFile)
 	{
 		return;
@@ -80,7 +80,7 @@ void MinSource::Init(char* f)
 	m_i = new(std::nothrow) char[size];
 	if (m_i)
 	{
-		int rs=fread(m_i,size,1,pFile);
+		int rs=fread(m_i,size,1,pFile)*size;
 		assert(rs == size);
 		m_n = size;
 		m_isLoad = true;
