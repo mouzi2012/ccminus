@@ -3,3 +3,41 @@ fix the conflict in the cminus
 #########################
 NEW BNF convert from old BNF
 #####################################
+program->declaration_list
+declaration_list->declaration declaration_list|declaration
+declaration->declaration_prefix declaration_postfix
+declaration_prefix->type_specifier ID
+declaration_postfix->var_postfix|array_postfix|fun_postfix
+var_postfix->;
+array_postfix->[NUM];
+fun_postfix->(params) compound_stmt
+
+var_declaration->declaration_prefix var_declaration_postfix
+var_declaration_postfix->var_postfix|array_postfix
+fun_declaration->declaration_prefix fun_postfix
+
+type_specifier->int|void
+params->param_list|void
+param_list->param,param_list|param
+param->type_specifier ID|type_specifier ID []
+compound_stmt->{local_declarations statement_list}
+local_declarations->var_declaration local_declarations|empty
+statement_list->statement statement_list|empty
+statement->expression_stmt|compound_stmt|selection_stmt|iteration_stmt|return_stmt
+expression_stmt->expression;|;
+selection_stmt->if (expression) statement|if (expression) statement else statement
+iteration_stmt->while(expression) statement
+return_stmt->return;|return expression;
+expression->var=expression|simple_expression;
+var->ID|ID[expression]
+
+simple_expression->additive_expression relop additive_expression|additive_expression
+relop-><=|<|>|>=|==|!=
+additive_expression->additive_expression addop term|term
+addop->+|-
+term->term mulop factor|factor
+mulop->*|/
+factor->(expression)|var|call|NUM
+call->ID(args)
+args->arg_list|empty
+arg_list->arg_list,expression|expression

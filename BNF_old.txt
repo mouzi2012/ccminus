@@ -7,7 +7,7 @@ BNF:
 6.fun_declaration->type_specifier ID (params) compound_stmt
 7.params->param_list|void
 8.param_list->param_list,param|param
-9.param->type->specifier ID|specifier ID []
+9.param->type_specifier ID|type_specifier ID []
 10.compound_stmt->{local_declarations statement_list}
 11.local_declarations->local_declarations var_declaration|empty
 12.statement_list->statement_list statement|empty
