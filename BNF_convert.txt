@@ -29,15 +29,30 @@ selection_stmt->if (expression) statement|if (expression) statement else stateme
 iteration_stmt->while(expression) statement
 return_stmt->return;|return expression;
 expression->var=expression|simple_expression;
-var->ID|ID[expression]
+
+var->var_prefix var_postfix
+var_prefix->ID
+var_postfix->[expression]|empty
 
 simple_expression->additive_expression relop additive_expression|additive_expression
+
 relop-><=|<|>|>=|==|!=
-additive_expression->additive_expression addop term|term
+
+additive_expression->term additive_postfix
+additive_postfix->addop term additive_postifx|empty
+
 addop->+|-
-term->term mulop factor|factor
+
+term->factor term_postfix
+term_postfix->mulop factor term_postfix|empty
+
 mulop->*|/
+
 factor->(expression)|var|call|NUM
+
 call->ID(args)
+
 args->arg_list|empty
-arg_list->arg_list,expression|expression
+
+arg_list->expression arg_list_postfix
+arg_list_postfix->,expression arg_list_postfix|empty
