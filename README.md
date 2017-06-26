@@ -25,3 +25,8 @@ following syntax check
 2 find the syntax_tree this is very important ,after that use can do run time work
 3 from the syntax_tree generate the code 
 4 run the code 
+###################################################
+1 find the first set.
+2 find the follow set.
+3 use map to present the ll(1) parse select table. eg:map<none terminal,token>->production
+3 find the parse stack.

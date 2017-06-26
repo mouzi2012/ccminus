@@ -1,37 +1,75 @@
 #######################
-fix the conflict in the cminus
+##fix the conflict in the cminus
 #########################
-NEW BNF convert from old BNF
+##NEW BNF convert from old BNF
 #####################################
+
 program->declaration_list
-declaration_list->declaration declaration_list|declaration
+
+declaration_list->declaration declaration_list_postfix
+
+declaration_list_postfix->declaration_list|empty
+
 declaration->declaration_prefix declaration_postfix
+
 declaration_prefix->type_specifier ID
+
 declaration_postfix->var_postfix|array_postfix|fun_postfix
+
 var_postfix->;
+
 array_postfix->[NUM];
+
 fun_postfix->(params) compound_stmt
 
 var_declaration->declaration_prefix var_declaration_postfix
+
 var_declaration_postfix->var_postfix|array_postfix
+
 fun_declaration->declaration_prefix fun_postfix
 
 type_specifier->int|void
+
 params->param_list|void
-param_list->param,param_list|param
-param->type_specifier ID|type_specifier ID []
+
+param_list->param param_list_postfix
+
+param_list_postfix->,param_list|empty
+
+param->type_specifier ID param_postfix
+
+param_postfix->[]|empty
+
 compound_stmt->{local_declarations statement_list}
+
 local_declarations->var_declaration local_declarations|empty
+
 statement_list->statement statement_list|empty
+
 statement->expression_stmt|compound_stmt|selection_stmt|iteration_stmt|return_stmt
-expression_stmt->expression;|;
-selection_stmt->if (expression) statement|if (expression) statement else statement
+
+expression_stmt->expression_stmt_prefix;
+
+expression_stmt_prefix->expression|empty
+
+selection_stmt->if_selection else_selection
+
+if_selection->if (expression) statement
+
+else_selection->else statement|empty
+
 iteration_stmt->while(expression) statement
-return_stmt->return;|return expression;
+
+return_stmt->return return_stmt_middle;
+
+return_stmt_middle->expression|empty
+
 expression->var=expression|simple_expression;
 
 var->var_prefix var_postfix
+
 var_prefix->ID
+
 var_postfix->[expression]|empty
 
 simple_expression->additive_expression relop additive_expression|additive_expression
@@ -39,11 +77,13 @@ simple_expression->additive_expression relop additive_expression|additive_expres
 relop-><=|<|>|>=|==|!=
 
 additive_expression->term additive_postfix
+
 additive_postfix->addop term additive_postifx|empty
 
 addop->+|-
 
 term->factor term_postfix
+
 term_postfix->mulop factor term_postfix|empty
 
 mulop->*|/
@@ -55,4 +95,5 @@ call->ID(args)
 args->arg_list|empty
 
 arg_list->expression arg_list_postfix
+
 arg_list_postfix->,expression arg_list_postfix|empty
