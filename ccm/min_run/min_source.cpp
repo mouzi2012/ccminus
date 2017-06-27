@@ -93,3 +93,37 @@ void MinSource::BackP()
 	assert(m_p>0);
 	m_p--;
 }
+bool MinSource::ReadLine(string& s)
+{
+	char buf[256]={0};
+	int i=0;
+
+	for(;m_i[m_p]!='\n' && m_p < m_n;++m_p)
+	{
+
+		if(m_i[m_p]=='\r')
+		{
+			continue;
+		}
+
+		buf[i++] =m_i[m_p];
+	}
+
+	if (m_p < m_n - 1)
+	{
+		++m_p;
+		s = buf;
+		return true;
+	}
+	else if (m_p == m_n - 1)
+	{
+		if (i > 0)
+		{
+			s = buf;
+			return true;
+		}
+		return false;
+	}
+	return false;
+	
+}

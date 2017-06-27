@@ -1,5 +1,7 @@
 #ifndef MIN_SOURCE_H
 #define MIN_SOURCE_H
+#include<string>
+using std::string;
 class MinSource
 {
 public:
@@ -11,6 +13,7 @@ public:
 	bool ReadC(char& c);
 	void ResetP();
 	void BackP();
+	bool ReadLine(string& s);
 private:
 	char m_name[256];
 	int m_p;		//指针位置

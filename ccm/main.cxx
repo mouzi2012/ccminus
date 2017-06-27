@@ -1,9 +1,10 @@
 #include<iostream>
 #include "min_run/min_source.h"
 #include "min_run/parse/syntax/min_token.h"
-
+#include "min_run/parse/syntax/min_bnf.h"
 using namespace std;
-int main()
+
+void testToken()
 {
 	MinSource source;
 	source.Init("ccmin/basic.cm");
@@ -32,6 +33,21 @@ int main()
 			break;
 		}
 	}
+}
+void testBNF()
+{
+	MinSource source;
+	source.Init("ccmin/BNF_convert.txt");
+	MinBNF bnf(&source);
+	
+	bnf.GetBNFMap();
+	bnf.PrintBNFMap();
+}
+
+int main()
+{
+	//testToken();
+	testBNF();
 	system("pause");
 	return 0;
 }
