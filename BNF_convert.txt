@@ -8,7 +8,7 @@ program->declaration_list
 
 declaration_list->declaration declaration_list_postfix
 
-declaration_list_postfix->declaration_list|empty
+declaration_list_postfix->declaration declaration_list_postfix|empty
 
 declaration->declaration_prefix declaration_postfix
 
@@ -34,7 +34,7 @@ params->param_list|void
 
 param_list->param param_list_postfix
 
-param_list_postfix->,param_list|empty
+param_list_postfix->,param param_list_postfix|empty
 
 param->type_specifier ID param_postfix
 
@@ -72,7 +72,9 @@ var_prefix->ID
 
 var_postfix->[expression]|empty
 
-simple_expression->additive_expression relop additive_expression|additive_expression
+simple_expression->additive_expression simple_expression_postfix
+
+simple_expression_postfix->relop additive_expression|empty
 
 relop-><=|<|>|>=|==|!=
 
