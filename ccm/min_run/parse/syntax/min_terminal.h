@@ -23,7 +23,6 @@ class MinNTerminal
 {
 public:
 	MinNTerminal();
-	void AddBlock(const MinSymBlock& pt);
 private:
 	string m_n;
 	list<list<MinSymBlock>> m_ts;
