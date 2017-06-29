@@ -16,11 +16,11 @@ declaration_prefix->type_specifier ID
 
 declaration_postfix->var_postfix|array_postfix|fun_postfix
 
-var_postfix->;
+var_postfix->";"
 
-array_postfix->[NUM];
+array_postfix->"[" NUM "]" ";"
 
-fun_postfix->(params) compound_stmt
+fun_postfix->"(" params ")" compound_stmt
 
 var_declaration->declaration_prefix var_declaration_postfix
 
@@ -34,13 +34,13 @@ params->param_list|void
 
 param_list->param param_list_postfix
 
-param_list_postfix->,param param_list_postfix|empty
+param_list_postfix->"," param param_list_postfix|empty
 
 param->type_specifier ID param_postfix
 
-param_postfix->[]|empty
+param_postfix->"[" "]"|empty
 
-compound_stmt->{local_declarations statement_list}
+compound_stmt->"{" local_declarations statement_list "}"
 
 local_declarations->var_declaration local_declarations|empty
 
@@ -54,11 +54,11 @@ expression_stmt_prefix->expression|empty
 
 selection_stmt->if_selection else_selection
 
-if_selection->if (expression) statement
+if_selection->if "(" expression ")" statement
 
 else_selection->else statement|empty
 
-iteration_stmt->while(expression) statement
+iteration_stmt->while"("expression")" statement
 
 return_stmt->return return_stmt_middle;
 
@@ -70,7 +70,7 @@ var->var_prefix var_postfix
 
 var_prefix->ID
 
-var_postfix->[expression]|empty
+var_postfix->"[" expression "]"|empty
 
 simple_expression->additive_expression simple_expression_postfix
 
@@ -90,12 +90,12 @@ term_postfix->mulop factor term_postfix|empty
 
 mulop->*|/
 
-factor->(expression)|var|call|NUM
+factor->"(" expression ")"|var|call|NUM
 
-call->ID(args)
+call->ID "(" args ")"
 
 args->arg_list|empty
 
 arg_list->expression arg_list_postfix
 
-arg_list_postfix->,expression arg_list_postfix|empty
+arg_list_postfix->"," expression arg_list_postfix|empty
