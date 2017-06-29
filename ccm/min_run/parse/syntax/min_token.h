@@ -51,6 +51,10 @@ struct MinTokenRecord
 		pn = nullptr;
 		i = -1;
 	}
+	bool Equal(const MinTokenRecord& rhs)
+	{
+		return this.pn == rhs.pn;
+	}
 };
 class MinSource;
 

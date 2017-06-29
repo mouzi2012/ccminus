@@ -4,7 +4,7 @@
 
 MinBNF::MinBNF(MinSource* rhs)
 {
-	 pS= rhs;
+	 pS = rhs;
 }
 
 void MinBNF::GetBNFMap()
@@ -32,8 +32,8 @@ void MinBNF::GetBNFMap()
 			}
 		}
 	}
-		
 }
+
 void MinBNF::PrintBNFMap()
 {
 	for(auto& d: m_bnf_map)
@@ -44,4 +44,9 @@ void MinBNF::PrintBNFMap()
 			cout<<" "<< (*p_map).second;
 		cout<<endl;
 	}
+}
+
+void MinBNF::ParseNTerminal()
+{
+	
 }
