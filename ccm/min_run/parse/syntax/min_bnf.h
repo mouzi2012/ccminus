@@ -22,7 +22,7 @@ public:
 	void ParseNTerminal();
 private:
 	MinSource* pS;
-	multimap<string,string> m_bnf_map;
+	multimap<string,list<string>> m_bnf_map;
 	map<string,MinNTerminal*> m_nt;
 };
 #endif

@@ -24,6 +24,9 @@ class MinNTerminal
 {
 public:
 	MinNTerminal();
+	void AddListSymBlock(list<MinSymBlock>& lb);
+	void SetName(const string& n);
+	const string& GetName();
 private:
 	string m_n;
 	list<list<MinSymBlock>> m_ts;
