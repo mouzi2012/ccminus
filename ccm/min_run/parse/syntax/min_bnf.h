@@ -6,10 +6,13 @@ using std::list;
 
 #include<map>
 using std::multimap;
+using std::map;
 
 #include<string>
 using std::string;
 
+class MinNTerminal;
+class MinSource;
 class MinBNF
 {
 public:

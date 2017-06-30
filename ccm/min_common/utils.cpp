@@ -1,3 +1,4 @@
+#include "utils.h"
 void Utils::SplitString(const std::string& s, std::vector<std::string>& v, const std::string& c)
 {
   std::string::size_type pos1, pos2;

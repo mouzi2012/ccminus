@@ -9,6 +9,7 @@ using std::string;
 #include "min_token.h"
 
 
+class MinNTerminal;
 struct MinSymBlock
 {
 	enum class ESymType{EEmpty,EToken,ENTerminal};
@@ -17,7 +18,7 @@ struct MinSymBlock
 		MinNTerminal* pMinNT;
 		MinTokenRecord* pMinT;
 	}data;
-}
+};
 
 class MinNTerminal
 {
