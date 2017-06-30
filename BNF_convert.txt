@@ -64,7 +64,7 @@ return_stmt->return return_stmt_middle;
 
 return_stmt_middle->expression|empty
 
-expression->var=expression|simple_expression;
+expression->var "=" expression|simple_expression;
 
 var->var_prefix var_postfix
 
