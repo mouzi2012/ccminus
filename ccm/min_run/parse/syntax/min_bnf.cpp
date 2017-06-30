@@ -107,9 +107,35 @@ void MinBNF::ParseNTerminal()
 		{
 			for (auto& v:iter->second)
 			{
-				/*if ()
+				if (m_nt.find(v) == m_nt.end())
 				{
-				}*/
+					if (v == "ID")
+					{
+					}
+					else if (v == "NUM")
+					{
+
+					}
+					else if (v =="+")
+					{
+					}
+					else if (v == "-")
+					{
+					}
+					else if (v == "*")
+					{
+					}
+					else if (v == "/")
+					{
+					}
+				}
+				else
+				{
+					MinSymBlock b;
+					b.t = MinSymBlock::ESymType::ENTerminal;
+					b.data.pMinNT = m_nt[v];
+					lb.push_back(b);
+				}
 			}
 		}
 

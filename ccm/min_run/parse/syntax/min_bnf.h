@@ -20,6 +20,7 @@ public:
 	void GetBNFMap();
 	void PrintBNFMap();
 	void ParseNTerminal();
+
 private:
 	MinSource* pS;
 	multimap<string,list<string>> m_bnf_map;
