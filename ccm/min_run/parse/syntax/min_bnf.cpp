@@ -102,101 +102,141 @@ void MinBNF::ParseNTerminal()
 	for (auto& p : m_nt)
 	{
 		auto ret = m_bnf_map.equal_range(p.first);
-		list<MinSymBlock> lb;
+		
 		for (auto iter = ret.first; iter != ret.second; ++iter)
 		{
+			list<MinSymBlock> lb;
 			for (auto& v:iter->second)
 			{
 				if (m_nt.find(v) == m_nt.end())
 				{
+					MinSymBlock b;
+					b.t = MinSymBlock::ESymType::EToken;
+					b.data.pMinT = new MinTokenRecord;
+					lb.push_back(b);
+
 					if (v == "ID")
 					{
+						b.data.pMinT->k = EMinTokenType::EID;
 					}
 					else if (v == "NUM")
 					{
-
+						b.data.pMinT->k = EMinTokenType::ENum;
 					}
-
 					else if (v =="+")
 					{
-
+						b.data.pMinT->k = EMinTokenType::EPLUS;
 					}
 					else if (v == "-")
 					{
-
+						b.data.pMinT->k = EMinTokenType::EMINUS;
 					}
 					else if (v == "*")
 					{
-
+						b.data.pMinT->k = EMinTokenType::EMULTI;
 					}
 					else if (v == "/")
 					{
-
+						b.data.pMinT->k = EMinTokenType::EDIV;
 					}
-
 					else if (v == "<")
 					{
-
+						b.data.pMinT->k = EMinTokenType::EL;
 					}
-
 					else if (v == "<=")
 					{
-
+						b.data.pMinT->k = EMinTokenType::ELEQ;
 					}
-
 					else if (v == ">")
 					{
-
+						b.data.pMinT->k = EMinTokenType::EG;
 					}
-
 					else if (v == ">=")
 					{
-
+						b.data.pMinT->k = EMinTokenType::EGEQ;
 					}
-
 					else if (v == "==")
 					{
-
+						b.data.pMinT->k = EMinTokenType::EEQ;
 					}
 					else if (v == "=")
 					{
-
+						b.data.pMinT->k = EMinTokenType::EASIGN;
 					}
 					else if (v == "!=")
 					{
-
+						b.data.pMinT->k = EMinTokenType::ENEQ;
 					}
 					else if (v == ";")
 					{
-
+						b.data.pMinT->k = EMinTokenType::ESEM;
 					}
 					else if (v == ",")
 					{
-
+						b.data.pMinT->k = EMinTokenType::ECOMMA;
 					}
 					else if (v == "(")
 					{
+						b.data.pMinT->k = EMinTokenType::ELBRAC;
 
 					}
 					else if (v == ")")
 					{
-
+						b.data.pMinT->k = EMinTokenType::ELBRAC;
 					}
 					else if (v == "[")
 					{
+						b.data.pMinT->k = EMinTokenType::ELINDEX;
 
 					}
 					else if (v == "]")
 					{
+						b.data.pMinT->k = EMinTokenType::ERINDEX;
 
 					}
 					else if (v == "{")
 					{
+						b.data.pMinT->k = EMinTokenType::ELBLOCK;
 
 					}
 					else if (v == "}")
 					{
+						b.data.pMinT->k = EMinTokenType::ERBLOCK;
 
+					}
+					else if (v == "if")
+					{
+						b.data.pMinT->k = EMinTokenType::EIF;
+					}
+					else if (v == "else")
+					{
+						b.data.pMinT->k = EMinTokenType::EELSE;
+					}
+					else if (v == "while")
+					{
+						b.data.pMinT->k = EMinTokenType::EWHILE;
+					}
+					else if (v == "int")
+					{
+						b.data.pMinT->k = EMinTokenType::EINT;
+					}
+					else if (v == "void")
+					{
+						b.data.pMinT->k = EMinTokenType::EVOID;
+					}
+					else if (v == "return")
+					{
+						b.data.pMinT->k = EMinTokenType::ERETURN;
+					}
+					else if (v == "empty")
+					{
+						b.t = MinSymBlock::ESymType::EEmpty;
+						delete b.data.pMinT;
+						b.data.pMinT = nullptr;
+					}
+					else
+					{
+						cout << "bad parse: "<< v << endl;
 					}
 				}
 				else
@@ -207,12 +247,13 @@ void MinBNF::ParseNTerminal()
 					lb.push_back(b);
 				}
 			}
+			if (lb.size() > 0)
+			{
+				p.second->AddListSymBlock(lb);
+			}
 		}
 
-		if (lb.size() > 0)
-		{
-			p.second->AddListSymBlock(lb);
-		}
+		
 			
 	}
 	
