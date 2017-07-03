@@ -116,17 +116,87 @@ void MinBNF::ParseNTerminal()
 					{
 
 					}
+
 					else if (v =="+")
 					{
+
 					}
 					else if (v == "-")
 					{
+
 					}
 					else if (v == "*")
 					{
+
 					}
 					else if (v == "/")
 					{
+
+					}
+
+					else if (v == "<")
+					{
+
+					}
+
+					else if (v == "<=")
+					{
+
+					}
+
+					else if (v == ">")
+					{
+
+					}
+
+					else if (v == ">=")
+					{
+
+					}
+
+					else if (v == "==")
+					{
+
+					}
+					else if (v == "=")
+					{
+
+					}
+					else if (v == "!=")
+					{
+
+					}
+					else if (v == ";")
+					{
+
+					}
+					else if (v == ",")
+					{
+
+					}
+					else if (v == "(")
+					{
+
+					}
+					else if (v == ")")
+					{
+
+					}
+					else if (v == "[")
+					{
+
+					}
+					else if (v == "]")
+					{
+
+					}
+					else if (v == "{")
+					{
+
+					}
+					else if (v == "}")
+					{
+
 					}
 				}
 				else
