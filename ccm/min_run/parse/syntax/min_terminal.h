@@ -5,6 +5,8 @@
 using std::list;
 #include <string>
 using std::string;
+#include<set>
+using std::set;
 
 #include "min_token.h"
 
@@ -27,9 +29,14 @@ public:
 	void AddListSymBlock(list<MinSymBlock>& lb);
 	void SetName(const string& n);
 	const string& GetName();
+	bool HasEmpty();
+	const set<MinTokenRecord*>& GetFirstSet(MinNTerminal* pR);
+	const set<MinTokenRecord*>& GetFollowSet(MinNTerminal* pR);
 private:
 	string m_n;
 	list<list<MinSymBlock>> m_ts;
+	set<MinTokenRecord*> m_first;
+	set<MinTokenRecord*> m_follow;
 };
 
 #endif
