@@ -41,6 +41,7 @@ const set<MinTokenRecord*>& MinNTerminal::GetFirstSet(MinNTerminal* pR)
 			{
 				if (d.t == MinSymBlock::ESymType::EEmpty)
 				{
+					m_first.insert(nullptr);
 				}
 				else if (d.t == MinSymBlock::ESymType::EToken)
 				{
