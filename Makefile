@@ -11,6 +11,6 @@ Test:$(OBJECTS)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -o $@ $(OBJECTS)
 	
 main.o:main.cxx
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $@ $^
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -o $@ -c $^
 clean :
 	-del $(OBJECTS) Test

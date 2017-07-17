@@ -72,5 +72,5 @@ const set<MinTokenRecord*>& MinNTerminal::GetFirstSet(MinNTerminal* pR)
 
 const set<MinTokenRecord*>& MinNTerminal::GetFollowSet(MinNTerminal* pR)
 {
-
+	return m_follow;
 }
