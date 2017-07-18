@@ -44,11 +44,18 @@ void testBNF()
 	bnf.GetBNFMap();
 	bnf.PrintBNFMap();
 }
-
+#include <ctime>
 int main()
 {
+	//std::locale::global(std::locale("ja_JP.utf8"));
+	//std::time_t t = std::time(NULL);
+	/*std::time_t t = 1499101261;
+	char mbstr[100];
+	if (std::strftime(mbstr, sizeof(mbstr), "%Y", std::localtime(&t))) {
+	std::cout << mbstr << '\n';
+	}*/
 	//testToken();
-	testBNF();
+	//testBNF();
 	system("pause");
 	return 0;
 }
