@@ -1,6 +1,6 @@
 #include "string_pool.h"
 #include <string.h>
-#include <malloc.h>
+#include <stdlib.h>
 
 unsigned int StrHashTable::Hash(const char *str)
 {
