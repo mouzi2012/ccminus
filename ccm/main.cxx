@@ -1,7 +1,8 @@
-#include<iostream>
 #include "min_run/min_source.h"
 #include "min_run/parse/syntax/min_token.h"
 #include "min_run/parse/syntax/min_bnf.h"
+
+#include<iostream>
 using namespace std;
 
 void testToken()
