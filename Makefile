@@ -1,17 +1,24 @@
+SRCS =  main.cpp min_source.cpp min_bnf.cpp min_syn.cpp min_terminal.cpp min_token.cpp \
+		  hash_pool_manager.cpp hash_table.cpp string_pool.cpp sim_tree.cpp singleton.cpp utils.cpp
 
-OBJECTS = main.o min_source.o min_bnf.o min_syn.o min_terminal.o min_token.o \
-		  hash_pool_manager.o hash_table.o string_pool.o sim_tree.o singleton.o utils.o
 VPATH   = ./ccm ./ccm/min_common \
 			./ccm/min_run ./ccm/min_run/parse/syntax ./ccm/min_run/pool
 			
 CXX = g++ 
 #CPPFLAGS = '-I/usr/local/include'
 CXXFLAGS = -Wall -g -std=c++11
-all:Test
-Test:$(OBJECTS)
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -o $@ $(OBJECTS)
-	
-main.o:main.cxx
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -o $@ -c $^
-clean :
-	rm $(OBJECTS) Test
+
+%.d: %.cpp
+	@set -e; rm -f $@; \
+	$(CC) -MM $(CPPFLAGS) $< > $@.$$$$; \
+	sed 's,\($*\)\.o[ :]*,\1.o $@ : ,g' < $@.$$$$ > $@; \
+	rm -f $@.$$$$
+
+%.d: %.cxx
+	@set -e; rm -f $@; \
+	$(CC) -MM $(CPPFLAGS) $< > $@.$$$$; \
+	sed 's,\($*\)\.o[ :]*,\1.o $@ : ,g' < $@.$$$$ > $@; \
+	rm -f $@.$$$$
+
+include $(SRCS:.cpp=.d)
+
