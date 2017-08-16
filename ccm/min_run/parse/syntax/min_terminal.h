@@ -14,7 +14,7 @@ using std::set;
 class MinNTerminal;
 struct MinSymBlock
 {
-	enum class ESymType{EEmpty,EToken,ENTerminal};
+	enum class ESymType{EEmpty,EToken,ENTerminal,EEnd};
 	ESymType t;
 	union {
 		MinNTerminal* pMinNT;
