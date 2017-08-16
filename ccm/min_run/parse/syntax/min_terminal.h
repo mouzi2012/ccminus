@@ -14,7 +14,7 @@ using std::set;
 class MinNTerminal;
 struct MinSymBlock
 {
-	enum class ESymType{EEmpty,EToken,ENTerminal,EEnd};
+	enum class ESymType{EEmpty,EToken,ENTerminal};
 	ESymType t;
 	union {
 		MinNTerminal* pMinNT;
@@ -32,6 +32,7 @@ public:
 	bool HasEmpty();
 	const set<MinTokenRecord*>& GetFirstSet(MinNTerminal* pR);
 	const set<MinTokenRecord*>& GetFollowSet(MinNTerminal* pR);
+	void AddFollowSet(MinTokenRecord* r);
 private:
 	string m_n;
 	list<list<MinSymBlock>> m_ts;

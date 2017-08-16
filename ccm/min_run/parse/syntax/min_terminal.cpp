@@ -74,3 +74,8 @@ const set<MinTokenRecord*>& MinNTerminal::GetFollowSet(MinNTerminal* pR)
 {
 	return m_follow;
 }
+
+void MinNTerminal::AddFollowSet(MinTokenRecord* r)
+{
+	m_follow.insert(r);
+}

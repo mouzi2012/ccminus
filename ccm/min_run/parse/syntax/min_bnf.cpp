@@ -252,9 +252,22 @@ void MinBNF::ParseNTerminal()
 				p.second->AddListSymBlock(lb);
 			}
 		}
-
-		
-			
 	}
 	
+}
+void MinBNF::GetTableSets()
+{
+	for (auto& v : m_nt)
+	{
+		v.second->GetFirstSet(nullptr);
+	}
+	MinTokenRecord* pM = new MinTokenRecord;
+	pM->k = ETEnd;
+	//the bnf start from program
+	m_nt["program"]->AddFollowSet(pM);
+	
+	for (auto& v : m_nt)
+	{
+		v.second->GetFollowSet(nullptr);
+	}
 }
